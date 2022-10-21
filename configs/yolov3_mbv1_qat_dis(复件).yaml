@@ -1,0 +1,32 @@
+Global:
+  reader_config: configs/yolo_reader.yml
+  input_list: ['image', 'im_shape', 'scale_factor']
+  Evaluation: True
+  model_dir: ./yolov3_mobilenet_v1_270e_coco  # Model Link: https://paddledet.bj.bcebos.com/models/slim/yolov3_mobilenet_v1_270e_coco.tar
+  model_filename: model.pdmodel
+  params_filename: model.pdiparams
+
+Distillation:
+  alpha: 1.0
+  loss: l2
+  node:
+  - conv2d_84.tmp_0
+  - conv2d_85.tmp_0
+  - conv2d_86.tmp_0
+
+Quantization:
+  activation_quantize_type: 'range_abs_max'
+  quantize_op_types:
+  - conv2d
+  - depthwise_conv2d
+
+TrainConfig:
+  train_iter: 3000
+  eval_iter: 1000
+  learning_rate: 0.0001
+  optimizer_builder:
+    optimizer: 
+      type: SGD
+    weight_decay: 4.0e-05
+  #origin_metric: 0.289
+
